@@ -26,48 +26,38 @@ def factorial(n):
         return n * factorial(n - 1)
 
 
-def factorial_generator():
+def factorial_g():
     yield 1
-    x = 1
-    y = 2
+    n = 1
+    factorial_of_n_minus_one = 1
     while True:
-        yield x
-        x *= y
-        y += 1
+        result = n * factorial_of_n_minus_one
+        yield result
+        n += 1
+        factorial_of_n_minus_one = result
 
 
-factorial_generator = factorial_generator()
-
-
-def fib_generator():
+def fibonacci_g():
     yield 0
-    x = 1
-    y = 0
+    yield 1
+    n_minus_two = 0
+    n_minus_one = 1
     while True:
-        yield x
-        x += y
-        y = x
+        n = n_minus_two + n_minus_one
+        yield n
+        n_minus_two = n_minus_one
+        n_minus_one = n
 
 
-fib_generator = fib_generator()
-
-
-def iterate(n, fn):
+def return_nth_iteration(n, fn):
+    fn = fn()
     for i in range(n):
         next(fn)
     return next(fn)
 
 
-print(iterate(5, factorial_generator))
-print(iterate(0, fib_generator))
-print(iterate(1, fib_generator))
-print(iterate(2, fib_generator))
-print(iterate(3, fib_generator))
-print(iterate(4, fib_generator))
+# next(fibonacci_g()) just keeps returning 0
+# but if you assign fibonacci_g() to a variable e.g. spam, next(spam) iterates as expected
 
-# for i in range(5):
-#     next(factorial_generator)           # this works
-#     # next(factorial_generator())       # this doesn't, most peculiarly indeed
-
-# print(next(factorial_generator))         # works
-# # print(next(factorial_generator()))    # doesn't
+# hofstadter's q sequence: not suitable for this approach
+# need to keep all of the q values up to Q(n), not just the last two, as far as I can tell
