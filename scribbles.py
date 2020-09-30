@@ -1,63 +1,66 @@
-from time import sleep
+# recursion practice
 
+# reverse a string recursively
 
-def fibonacci(n):
-    if n == 0:
-        return 0
-    if n == 1:
-        return 1
+# start at the end
+# no loops!
+# just has to take the last letter of the string, or a slice of the string
+
+# I want "wah" in, and "haw" out
+
+# should basically look like
+
+def reverse_string(string):
+    if len(string) < 2:
+        return string
     else:
-        return fibonacci(n - 1) + fibonacci(n - 2)
+        return string[-1] + reverse_string(string[:-1])
+
+# I want it to work like this
+
+# fn("wah") returns "h" + fn("wa")
+# fn("wa") returns "a" + fn("w")
+# fn("w") returns "w"
+
+# string has to diminish in size with every call
+
+# print(reverse_string("bugger"))
+
+#---#
+
+# print all of the elements in a list, no loops
 
 
-def countdown(seconds):
-    if seconds == 0:
-        return 0
+test_list = [1, 2, 3, 4, 5]
+
+
+def print_elements(l):
+    if not l:
+        return
     else:
-        print(seconds)
-        sleep(1)
-        return countdown(seconds - 1)
+        print(l[0])
+        print_elements(l[1:])
 
+# print_elements(test_list)
 
-def factorial(n):
-    if n == 0:
-        return 1
+#---#
+
+# try implementing a map function, no loops
+
+def tst_fn(n):
+    return n * 2
+
+def recursive_map(fn, l):
+    if len(l) < 2:
+        return [fn(l[0])]
     else:
-        return n * factorial(n - 1)
+        return [fn(l[0])] + recursive_map(tst_fn, l[1:])
 
+# again, I want this to stop when it reaches the end of the iterable
 
-def factorial_g():
-    yield 1
-    n = 1
-    factorial_of_n_minus_one = 1
-    while True:
-        result = n * factorial_of_n_minus_one
-        yield result
-        n += 1
-        factorial_of_n_minus_one = result
+print(recursive_map(tst_fn, test_list))
 
-
-def fibonacci_g():
-    yield 0
-    yield 1
-    n_minus_two = 0
-    n_minus_one = 1
-    while True:
-        n = n_minus_two + n_minus_one
-        yield n
-        n_minus_two = n_minus_one
-        n_minus_one = n
-
-
-def return_nth_iteration(n, fn):
-    fn = fn()
-    for i in range(n):
-        next(fn)
-    return next(fn)
-
-
-# next(fibonacci_g()) just keeps returning 0
-# but if you assign fibonacci_g() to a variable e.g. spam, next(spam) iterates as expected
-
-# hofstadter's q sequence: not suitable for this approach
-# need to keep all of the q values up to Q(n), not just the last two, as far as I can tell
+# works but a minute later I have forgotten why
+# ok imagine a 2 length list
+# would return both (transformed) elements
+# if there are more elements, it just goes to the base case, then back-propagates to the beginning
