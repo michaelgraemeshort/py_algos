@@ -1,10 +1,6 @@
 from random import randint
 
 
-def create_test_list(list_size, max_integer_size):
-    return [randint(0, max_integer_size) for i in range(list_size)]
-
-
 def bubble_sort(l):
     swapping = True
     while swapping:
