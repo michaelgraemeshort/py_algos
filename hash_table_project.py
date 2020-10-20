@@ -1,4 +1,4 @@
-# hash table implementation - if Python didn't have dictionaries...
+# if Python didn't have dictionaries...
 
 class HashTable:
     def __init__(self, size):
@@ -43,3 +43,4 @@ hash_table.set_val("spam", "spem")
 print(hash_table)
 print(hash_table.get_val("what"))
 print(hash_table.get_val("spam"))
+print(hash_table.get_val("spegg"))
