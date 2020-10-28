@@ -1,4 +1,3 @@
-# more linked list practice
 
 class Node:
     def __init__(self, data):
@@ -53,13 +52,25 @@ class LinkedList:
 
     def get(self, i):
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         node = self.head
         for _ in range(i):
             node = node.next
             if not node:
                 raise IndexError("list index out of range")
-        return node.data             
+        return node.data
+
+    def get_index(self, target_node_data):
+        if not self.head:
+            raise Exception("list is empty")
+        i = 0
+        node = self.head
+        while node:
+            if node.data == target_node_data:
+                return i
+            i += 1
+            node = node.next
+        raise ValueError(f"{target_node_data} is not in list")             
 
     def add_first(self, s): # takes a string, not a node
         new_node = Node(s)
@@ -77,18 +88,18 @@ class LinkedList:
 
     def add_after(self, target_node_data, s):   # adds after the FIRST occurrence of target_node_data
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         new_node = Node(s)
         for node in self:
             if node.data == target_node_data:
                 new_node.next = node.next
                 node.next = new_node
                 return  # otherwise, errors in case of further occurrences
-        raise Exception(f"Node with target data \"{target_node_data}\" not found.")
+        raise Exception(f"node with data \"{target_node_data}\" not found")
 
     def add_before(self, target_node_data, s):  # adds before the FIRST occurrence of target_node_data
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         new_node = Node(s)
         if self.head.data == target_node_data:
             # THIS DOESN'T WORK
@@ -109,16 +120,16 @@ class LinkedList:
                     node.next = new_node
                     new_node.next = node_after
                     return
-        raise Exception(f"Node with target data \"{target_node_data}\" not found.")
+        raise Exception(f"node with data \"{target_node_data}\" not found.")
 
     def remove_first(self):
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         self.head = self.head.next
 
     def remove_last(self):
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         node = self.head
         # if no second node:
         if not node.next:
@@ -134,9 +145,9 @@ class LinkedList:
             node = node.next
         node.next = None
 
-    def remove_node(self, target_node_data):
+    def remove_by_data(self, target_node_data):
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         if self.head.data == target_node_data:
             self.head = self.head.next
             return
@@ -146,11 +157,27 @@ class LinkedList:
                 if next_node.data == target_node_data:
                     node.next = next_node.next
                     return
-        raise Exception(f"Node with target data \"{target_node_data}\" not found.")
+        raise Exception(f"node with data \"{target_node_data}\" not found")
+
+    def remove_by_index(self, i):
+        if not self.head:
+            raise Exception("list is empty")
+        if i == 0:
+            self.head = self.head.next
+            return
+        node = self.head
+        # go to the index BEFORE the one specified
+        # connect node at that index with the one AFTER the one it is currently connected to
+        # if it exists
+        for _ in range(i - 1):
+            node = node.next
+            if not node.next:
+                raise IndexError("list index out of range")
+        node.next = node.next.next
 
     def reverse_list(self):
         if not self.head:
-            raise Exception("List is empty.")
+            raise Exception("list is empty")
         node = self.head
         next_node = node.next
         # point node at None instead of next_node
@@ -181,13 +208,5 @@ class Queue(LinkedList):
 
 ll = LinkedList(["a", "b", "c", "d"])
 empty_ll = LinkedList()
-q = Queue(list("abcdefg"))
-print(q)
-q.enqueue("d")
-print(q)
-q.dequeue()
-print(q)
-q.remove_last()
-print(q)
-q.remove_last()
-print(q)
+ll.remove_by_index(5)
+print(ll)
