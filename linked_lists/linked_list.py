@@ -22,7 +22,7 @@ class LinkedList:
         nodes = []
         node = self.head
         while node:
-            nodes.append(node.data)
+            nodes.append(str(node.data))
             node = node.next
         nodes.append("None")
         return " -> ".join(nodes)
@@ -43,14 +43,14 @@ class LinkedList:
             node = node.next   
         return length
 
-    def __getitem__(self, i):   # maybe refactor this and get(self, i)
+    def __getitem__(self, i):   # maybe refactor this
         if i >= 0:
             return self.get(i)
         if -(len(self)) <= i < 0:
             return self.get(len(self) + i)
         raise IndexError("list index out of range")
 
-    def get(self, i):
+    def get(self, i):   # and this
         if not self.head:
             raise Exception("list is empty")
         node = self.head
@@ -168,7 +168,7 @@ class LinkedList:
         node = self.head
         # go to the index BEFORE the one specified
         # connect node at that index with the one AFTER the one it is currently connected to
-        # if it exists
+        # unless it doesn't have a next node, in which case it can't have a node after next
         for _ in range(i - 1):
             node = node.next
             if not node.next:
@@ -195,6 +195,33 @@ class LinkedList:
             node = next_node
             next_node = node_after_next
 
+    def recursively_reverse_list(self, node, previous=None):
+        """pass self.head in"""
+        # first handle empty lists:
+        if self.head == None:
+            # do nothing
+            return
+        # if at tail node:
+        if node.next == None:
+            # reassign to self.head. first reassign self.head to self.tail, if implemented
+            self.head = node
+            # point current at previous node
+            node.next = previous
+        else:
+            # point current node at previous node but FIRST save next node
+            next_node = node.next
+            node.next = previous
+            # then move on to next linkage
+            self.recursively_reverse_list(next_node, node)
+
+    # so what does this function do?
+    # it takes two arguments: a node, and the node before
+    # and points the node at the one before
+    # in the case of 1 -> 2 -> 3, it starts with 1 (the head) and points it at None
+    # then it points 2 at 1
+    # then it points 3 at 2, assigns self.head to 3 and makes NO FURTHER CALLS
+
+
 class Queue(LinkedList):
     def __init__(self, nodes=None):
         super().__init__(nodes)
@@ -206,7 +233,7 @@ class Queue(LinkedList):
         return self.remove_first()
 
 
-ll = LinkedList(["a", "b", "c", "d"])
+ll = LinkedList([1, 2, 3])
 empty_ll = LinkedList()
-ll.remove_by_index(5)
+ll.recursively_reverse_list(ll.head)
 print(ll)

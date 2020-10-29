@@ -23,7 +23,7 @@ class LinkedList:
         nodes = []
         node = self.head
         while node:
-            nodes.append(node.data)
+            nodes.append(str(node.data))
             node = node.next
         nodes.append("None")
         return " -> ".join(nodes)
@@ -168,6 +168,44 @@ class LinkedList:
             node = next_node
             next_node = node_after_next
 
+    # def recursively_reverse_list(self):
+        # transforms 1 -> 2 -> 3 -> None into 3 -> 2 -> 1 -> None
+        # base case: node points to None
+        # so None <- 1 <- 2 <- 3
+        # if node.next == None:
+        #   node.next = nope
+        # maybe return None + recursively_reverse_list(nope)
+        # wrong, wrong, wrong. need to pass more arguments to this method
+        # namely, current node and previous node
+        # so that you can point a given node at the one before
+
+    def recursively_reverse_list(self, node, previous=None):
+        """pass self.head in"""
+        # first handle empty lists:
+        if self.head == None:
+            # do nothing
+            return
+        # if at tail node:
+        if node.next == None:
+            # reassign to self.head. first reassign self.head to self.tail, if implemented
+            self.head = node
+            # point current at previous node
+            node.next = previous
+        else:
+            # point current node at previous node but FIRST save next node
+            next_node = node.next
+            node.next = previous
+            # then move on to next linkage
+            self.recursively_reverse_list(next_node, node)
+
+    # so what does this function do?
+    # it takes two arguments: a node, and the node before
+    # and points the node at the one before
+    # in the case of 1 -> 2 -> 3, it starts with 1 (the head) and points it at None
+    # then it points 2 at 1
+    # then it points 3 at 2, assigns self.head to 3 and makes NO FURTHER CALLS
+        
+
 class Queue(LinkedList):
     def __init__(self, nodes=None):
         super().__init__(nodes)
@@ -179,15 +217,7 @@ class Queue(LinkedList):
         return self.remove_first()
 
 
-ll = LinkedList(["a", "b", "c", "d"])
-empty_ll = LinkedList()
-q = Queue(list("abcdefg"))
-print(q)
-q.enqueue("d")
-print(q)
-q.dequeue()
-print(q)
-q.remove_last()
-print(q)
-q.remove_last()
-print(q)
+ll = LinkedList([1, 2, 3])
+print(ll)
+ll.recursively_reverse_list(ll.head)
+print(ll)
