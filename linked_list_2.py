@@ -247,21 +247,3 @@ class LinkedList:
             next_node = node.next
             node.next = previous_node
             self.reverse_recursively(next_node, node)
-
-
-ll = LinkedList([1, 2, 3])
-ell = LinkedList([1])
-ell.reverse_recursively(ell.head)
-
-print(ell)
-print(ell.head)
-print(ell.tail)
-
-# del(ll[2])
-# print(ll)
-
-ll.reverse_recursively(ll.head)
-print(ll)
-print(ll.head)
-print(ll.tail)
-

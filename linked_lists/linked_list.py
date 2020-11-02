@@ -35,12 +35,10 @@ class LinkedList:
 
     def __len__(self):
         length = 0
-        if not self.head:
-            return length
         node = self.head
         while node:
             length += 1
-            node = node.next   
+            node = node.next
         return length
 
     def __getitem__(self, i):   # maybe refactor this
