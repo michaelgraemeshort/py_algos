@@ -234,9 +234,12 @@ class LinkedList:
             # reassign next_node and node for next iteration of loop
             node = next_node
             next_node = node_after_next
+
+    def reverse_recursively(self):
+        """Reverse *IN PLACE*."""
+        self._reverse_recursively(self.head)
         
-    def reverse_recursively(self, node, previous_node=None):
-        """Reverse *IN PLACE*. Pass self.head in."""
+    def _reverse_recursively(self, node, previous_node=None):
         if not self.head:
             return
         if not node.next:
@@ -246,4 +249,4 @@ class LinkedList:
         else:
             next_node = node.next
             node.next = previous_node
-            self.reverse_recursively(next_node, node)
+            self._reverse_recursively(next_node, node)
