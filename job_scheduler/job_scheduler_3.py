@@ -91,13 +91,18 @@ with open("job_scheduler/jobs.csv") as f:
     jobs = reader(f)
     job_list = [job for job in jobs]
 
-print("Building job schedule...\n")
+print("Building job schedule...")
 
 job_tree = BinarySearchTree()
 
 for job in job_list:
     job.extend([convert_time(job[1]), convert_time(job[2])])
-    job_tree.insert(job)
+    if job_tree.insert(job):
+        print(f"\n{job[0]} inserted successfully.", end="")
+    else:
+        print(f"\n***{job[0]} NOT inserted due to time slot conflict.***", end="")
+
+print("\n")
 
 running = True
 while running:
