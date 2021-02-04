@@ -112,7 +112,7 @@ class BinarySearchTree:
         # 1. leaf nodes. point parent node right or left at None
         # 2. nodes with one child. point parent node at child
         # 3. nodes with two children. replace node.data with max value from left subtree/min from right
-        # 4. root node. if no children, root = None. if one child, root = that child. if two, no further action?
+        # 4. root node. if no children, root = None. if one child, root = that child. if two, run # 3 above
         if node:
             if value == node.data:
                 # if no children

@@ -14,7 +14,7 @@ class LinkedList:
 
     def __init__(self, nodes=None):  # nodes is a list. must learn type hints
         self.head = None
-        self.head = None
+        self.tail = None
         if nodes:
             node = Node(nodes[0])
             self.head = node
